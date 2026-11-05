@@ -61,6 +61,9 @@ public class AuthService {
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
+        if (!props.auth().registrationEnabled()) {
+            throw new AppException(ErrorCode.REGISTRATION_DISABLED);
+        }
         String email = normalizeEmail(request.email());
         if (userRepository.existsByEmailIgnoreCase(email)) {
             throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS, email);

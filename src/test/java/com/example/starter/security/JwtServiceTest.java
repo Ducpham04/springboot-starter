@@ -25,7 +25,7 @@ class JwtServiceTest {
     private static JwtService service(String secret, Instant now) {
         AppProperties props = new AppProperties(
                 new AppProperties.Jwt(secret, "test", Duration.ofMinutes(15), Duration.ofDays(7)),
-                null, null, null, null, Locale.ENGLISH, null);
+                null, null, null, null, Locale.ENGLISH, null, false);
         return new JwtService(props, Clock.fixed(now, ZoneOffset.UTC));
     }
 

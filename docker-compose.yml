@@ -43,7 +43,6 @@ services:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
       DB_HOST: mysql
       DB_PORT: 3306
-      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required - copy .env.example to .env}
     ports:
       - "${SERVER_PORT:-8080}:8080"
     volumes:

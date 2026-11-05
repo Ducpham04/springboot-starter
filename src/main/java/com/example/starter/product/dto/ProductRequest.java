@@ -11,15 +11,22 @@ import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 
-/** Body for create (POST) and full update (PUT). */
+/**
+ * Body for create (POST) and update (PUT).
+ * {@code quantity} is the opening stock and is only used on create; afterwards stock changes
+ * exclusively through stock documents (see inventory module).
+ */
 public record ProductRequest(
         @NotBlank @Size(max = 50)
         @Pattern(regexp = "^[A-Za-z0-9_-]+$", message = "{validation.product.sku.pattern}") String sku,
         @NotBlank @Size(max = 200) String name,
         @Size(max = 5000) String description,
+        Long categoryId,
+        @Size(max = 30) String unit,
         @NotNull @DecimalMin("0.0") @Digits(integer = 13, fraction = 2) BigDecimal price,
-        @NotNull @Min(0) Integer quantity,
-        @Size(max = 100) String category,
+        @DecimalMin("0.0") @Digits(integer = 13, fraction = 2) BigDecimal costPrice,
+        @Min(0) Integer quantity,
+        @Min(0) Integer minStock,
         @Size(max = 500) String imageUrl,
         ProductStatus status
 ) {

@@ -44,7 +44,7 @@ public class ProductController {
     @GetMapping
     public ApiResponse<PageResponse<ProductResponse>> search(
             @ParameterObject ProductFilter filter,
-            @ParameterObject @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC)
+            @ParameterObject @PageableDefault(size = 20, sort = "name", direction = Sort.Direction.ASC)
             Pageable pageable) {
         return ApiResponse.ok(productService.search(filter, pageable));
     }
@@ -71,8 +71,8 @@ public class ProductController {
         return ApiResponse.ok(productService.update(id, request));
     }
 
-    @Operation(summary = "Delete a product (ADMIN role only - example of hasRole)")
-    @PreAuthorize("hasRole('ADMIN') and hasAuthority('PRODUCT_DELETE')")
+    @Operation(summary = "Delete a product without transactions (otherwise 409 - set status INACTIVE)")
+    @PreAuthorize("hasAuthority('PRODUCT_DELETE')")
     @DeleteMapping("/{id}")
     public ApiResponse<Void> delete(@PathVariable Long id) {
         productService.delete(id);

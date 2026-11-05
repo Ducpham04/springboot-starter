@@ -21,7 +21,9 @@ public record AppProperties(
         @Valid @NotNull Mail mail,
         @Valid @NotNull Auth auth,
         @NotNull Locale defaultLocale,
-        @Valid Admin admin
+        @Valid Admin admin,
+        /* Install the Vietnamese demo data set (Flyway location db/demo). */
+        boolean demoData
 ) {
 
     public record Jwt(
@@ -54,7 +56,11 @@ public record AppProperties(
     ) {
     }
 
-    public record Auth(@NotNull Duration passwordResetTtl) {
+    public record Auth(
+            @NotNull Duration passwordResetTtl,
+            /* Public self sign-up (POST /auth/register). Off for internal shop software. */
+            boolean registrationEnabled
+    ) {
     }
 
     /** Optional bootstrap admin, created at startup when no user with this email exists. */

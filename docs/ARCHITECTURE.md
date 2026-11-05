@@ -154,7 +154,7 @@ erDiagram
     STOCK_MOVEMENTS {
         bigint id PK
         bigint product_id FK
-        varchar type "RECEIPT|SALE|SALE_CANCEL|ADJUSTMENT"
+        varchar type "INITIAL|RECEIPT|SALE|SALE_CANCEL|ADJUSTMENT"
         int quantity_change
         int balance_after
         varchar reference_code

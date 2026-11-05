@@ -30,6 +30,12 @@ public enum ErrorCode {
     RESET_TOKEN_INVALID(HttpStatus.BAD_REQUEST, "error.auth.reset-token-invalid"),
     EMAIL_ALREADY_EXISTS(HttpStatus.CONFLICT, "error.auth.email-exists"),
     OLD_PASSWORD_INCORRECT(HttpStatus.BAD_REQUEST, "error.auth.old-password-incorrect"),
+    REGISTRATION_DISABLED(HttpStatus.FORBIDDEN, "error.auth.registration-disabled"),
+
+    // Users
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "error.user.not-found"),
+    ROLE_NOT_FOUND(HttpStatus.BAD_REQUEST, "error.user.role-not-found"),
+    CANNOT_MODIFY_SELF(HttpStatus.BAD_REQUEST, "error.user.cannot-modify-self"),
 
     // File
     FILE_EMPTY(HttpStatus.BAD_REQUEST, "error.file.empty"),
@@ -39,7 +45,31 @@ public enum ErrorCode {
 
     // Product (module example)
     PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, "error.product.not-found"),
-    PRODUCT_SKU_EXISTS(HttpStatus.CONFLICT, "error.product.sku-exists");
+    PRODUCT_SKU_EXISTS(HttpStatus.CONFLICT, "error.product.sku-exists"),
+    PRODUCT_IN_USE(HttpStatus.CONFLICT, "error.product.in-use"),
+    PRODUCT_INACTIVE(HttpStatus.BAD_REQUEST, "error.product.inactive"),
+
+    // Category
+    CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "error.category.not-found"),
+    CATEGORY_NAME_EXISTS(HttpStatus.CONFLICT, "error.category.name-exists"),
+    CATEGORY_IN_USE(HttpStatus.CONFLICT, "error.category.in-use"),
+
+    // Customer
+    CUSTOMER_NOT_FOUND(HttpStatus.NOT_FOUND, "error.customer.not-found"),
+    CUSTOMER_PHONE_EXISTS(HttpStatus.CONFLICT, "error.customer.phone-exists"),
+    CUSTOMER_IN_USE(HttpStatus.CONFLICT, "error.customer.in-use"),
+
+    // Orders
+    ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "error.order.not-found"),
+    ORDER_ALREADY_CANCELLED(HttpStatus.CONFLICT, "error.order.already-cancelled"),
+    INSUFFICIENT_STOCK(HttpStatus.CONFLICT, "error.order.insufficient-stock"),
+    DUPLICATE_LINE_ITEM(HttpStatus.BAD_REQUEST, "error.order.duplicate-item"),
+    DISCOUNT_TOO_LARGE(HttpStatus.BAD_REQUEST, "error.order.discount-too-large"),
+    CASH_NOT_ENOUGH(HttpStatus.BAD_REQUEST, "error.order.cash-not-enough"),
+
+    // Inventory
+    RECEIPT_NOT_FOUND(HttpStatus.NOT_FOUND, "error.inventory.receipt-not-found"),
+    STOCK_ADJUSTMENT_NO_CHANGE(HttpStatus.BAD_REQUEST, "error.inventory.no-change");
 
     private final HttpStatus status;
     private final String messageKey;

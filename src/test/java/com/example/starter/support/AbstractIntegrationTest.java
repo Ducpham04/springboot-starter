@@ -75,6 +75,44 @@ public abstract class AbstractIntegrationTest {
         return registerUser(uniqueEmail(), "Password1").path("accessToken").asText();
     }
 
+    /** Creates a user with the given role through the admin API and returns its access token. */
+    protected String tokenWithRole(String role) throws Exception {
+        String email = uniqueEmail();
+        mockMvc.perform(post("/api/v1/users")
+                        .header("Authorization", bearer(adminToken()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json(Map.of("email", email, "password", "Password1", "fullName", role + " test",
+                                "roles", java.util.List.of(role)))))
+                .andExpect(status().isCreated());
+        return login(email, "Password1").path("accessToken").asText();
+    }
+
+    /** Creates an ACTIVE product with opening stock and returns its id. */
+    protected long createProduct(String token, long price, long cost, int quantity) throws Exception {
+        Map<String, Object> body = new java.util.HashMap<>();
+        body.put("sku", "T-" + UUID.randomUUID().toString().substring(0, 8));
+        body.put("name", "Sản phẩm test " + UUID.randomUUID().toString().substring(0, 4));
+        body.put("price", price);
+        body.put("costPrice", cost);
+        body.put("quantity", quantity);
+        body.put("minStock", 2);
+        body.put("unit", "cái");
+        MvcResult result = mockMvc.perform(post("/api/v1/products")
+                        .header("Authorization", bearer(token))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json(body)))
+                .andExpect(status().isCreated())
+                .andReturn();
+        return body(result).path("data").path("id").asLong();
+    }
+
+    protected JsonNode getData(String url, String token) throws Exception {
+        return body(mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get(url)
+                        .header("Authorization", bearer(token)))
+                .andExpect(status().isOk())
+                .andReturn()).path("data");
+    }
+
     protected static String uniqueEmail() {
         return "user-" + UUID.randomUUID().toString().substring(0, 8) + "@test.local";
     }

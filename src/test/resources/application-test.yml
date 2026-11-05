@@ -1,5 +1,8 @@
 # Used by integration tests. The datasource is provided by Testcontainers (@ServiceConnection).
 app:
+  demo-data: false
+  auth:
+    registration-enabled: true
   jwt:
     secret: dGVzdC1vbmx5LXNlY3JldC1rZXktZm9yLWludGVncmF0aW9uLXRlc3RzLTMyYg==
   admin:

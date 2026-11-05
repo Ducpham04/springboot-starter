@@ -11,19 +11,19 @@
 - [x] Commit, push `feature/mvp`, mở Draft PR
 
 ## Giai đoạn 1 – Backend nền tảng & danh mục
-- [ ] Migration: vai trò MANAGER/STAFF, permission mới, cờ tắt đăng ký công khai
-- [ ] `/users/me` trả permissions; quản lý người dùng (tạo, sửa, khoá/mở, danh sách vai trò)
-- [ ] Nhóm hàng (CRUD + số sản phẩm)
-- [ ] Mở rộng sản phẩm: nhóm, đơn vị, giá vốn, ngưỡng cảnh báo; lọc sắp hết; ẩn giá vốn; không đổi tồn khi sửa; chặn xoá khi có giao dịch
-- [ ] Khách hàng (CRUD, tìm kiếm, thống kê chi tiêu)
+- [x] Migration: vai trò MANAGER/STAFF, permission mới, cờ tắt đăng ký công khai
+- [x] `/users/me` trả permissions; quản lý người dùng (tạo, sửa, khoá/mở, danh sách vai trò)
+- [x] Nhóm hàng (CRUD + số sản phẩm)
+- [x] Mở rộng sản phẩm: nhóm, đơn vị, giá vốn, ngưỡng cảnh báo; lọc sắp hết; ẩn giá vốn; không đổi tồn khi sửa; chặn xoá khi có giao dịch
+- [x] Khách hàng (CRUD, tìm kiếm, thống kê chi tiêu)
 
 ## Giai đoạn 2 – Backend nghiệp vụ chính
-- [ ] Sinh mã chứng từ (`code_sequences`)
-- [ ] Bán hàng: tạo đơn (khoá tồn, kiểm tra tồn, giảm giá), danh sách/chi tiết (STAFF chỉ thấy đơn của mình), huỷ đơn hoàn tồn
-- [ ] Kho: phiếu nhập (giá vốn bình quân), kiểm kho, lịch sử biến động
-- [ ] Tổng quan (dashboard)
-- [ ] Dữ liệu demo tiếng Việt + tài khoản demo 3 vai trò (`db/demo`)
-- [ ] Test backend: unit (Order, Inventory, Dashboard) + integration (luồng bán hàng, kho, phân quyền)
+- [x] Sinh mã chứng từ (`code_sequences`)
+- [x] Bán hàng: tạo đơn (khoá tồn, kiểm tra tồn, giảm giá), danh sách/chi tiết (STAFF chỉ thấy đơn của mình), huỷ đơn hoàn tồn
+- [x] Kho: phiếu nhập (giá vốn bình quân), kiểm kho, lịch sử biến động
+- [x] Tổng quan (dashboard)
+- [x] Dữ liệu demo tiếng Việt + tài khoản demo 3 vai trò (`db/demo`)
+- [x] Test backend: unit (Order, Inventory, Dashboard) + integration (luồng bán hàng, kho, phân quyền)
 
 ## Giai đoạn 3 – Frontend luồng chính
 - [ ] Khởi tạo Vite + React + TS + Tailwind + React Query + Router + RHF + Zod

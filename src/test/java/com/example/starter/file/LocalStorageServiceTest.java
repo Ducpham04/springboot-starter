@@ -31,7 +31,7 @@ class LocalStorageServiceTest {
     void setUp() {
         AppProperties props = new AppProperties(null, null,
                 new AppProperties.Storage("local", tempDir.toString(), DataSize.ofMegabytes(1), List.of()),
-                null, null, Locale.ENGLISH, null);
+                null, null, Locale.ENGLISH, null, false);
         storage = new LocalStorageService(props, Clock.fixed(Instant.parse("2026-03-15T10:00:00Z"), ZoneOffset.UTC));
     }
 

@@ -37,7 +37,9 @@ class ProductIT extends AbstractIntegrationTest {
         body.put("name", name);
         body.put("price", price);
         body.put("quantity", 10);
-        body.put("category", category);
+        if (category != null) {
+            body.put("categoryId", Long.valueOf(category));
+        }
         return body;
     }
 
@@ -57,7 +59,7 @@ class ProductIT extends AbstractIntegrationTest {
     @Test
     void fullCrudLifecycle() throws Exception {
         String sku = sku();
-        long id = create(product(sku, "Laptop", 1500.5, "electronics"));
+        long id = create(product(sku, "Laptop", 1500.5, null));
 
         mockMvc.perform(get("/api/v1/products/{id}", id).header(AUTHORIZATION, bearer(admin)))
                 .andExpect(status().isOk())
@@ -66,7 +68,7 @@ class ProductIT extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.data.createdBy").value(ADMIN_EMAIL))
                 .andExpect(jsonPath("$.data.createdAt").exists());
 
-        Map<String, Object> update = product(sku, "Laptop Pro", 1999, "electronics");
+        Map<String, Object> update = product(sku, "Laptop Pro", 1999, null);
         update.put("status", "INACTIVE");
         mockMvc.perform(put("/api/v1/products/{id}", id)
                         .header(AUTHORIZATION, bearer(admin))
@@ -90,18 +92,18 @@ class ProductIT extends AbstractIntegrationTest {
     @Test
     void duplicateSkuReturnsConflict() throws Exception {
         String sku = sku();
-        create(product(sku, "A", 1, "x"));
+        create(product(sku, "A", 1, null));
         mockMvc.perform(post("/api/v1/products")
                         .header(AUTHORIZATION, bearer(admin))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(json(product(sku, "B", 2, "x"))))
+                        .content(json(product(sku, "B", 2, null))))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.code").value("PRODUCT_SKU_EXISTS"));
     }
 
     @Test
     void invalidBodyReturnsFieldErrors() throws Exception {
-        Map<String, Object> body = product("bad sku!", "", -1, "x");
+        Map<String, Object> body = product("bad sku!", "", -1, null);
         mockMvc.perform(post("/api/v1/products")
                         .header(AUTHORIZATION, bearer(admin))
                         .header(ACCEPT_LANGUAGE, "vi")
@@ -115,24 +117,24 @@ class ProductIT extends AbstractIntegrationTest {
 
     @Test
     void searchWithFiltersPagingAndSorting() throws Exception {
-        String category = "cat-" + UUID.randomUUID().toString().substring(0, 6);
-        create(product(sku(), "Alpha phone", 100, category));
-        create(product(sku(), "Beta phone", 200, category));
-        create(product(sku(), "Gamma tablet", 300, category));
+        String tag = "tag" + UUID.randomUUID().toString().substring(0, 6);
+        create(product(sku(), "Alpha phone " + tag, 100, null));
+        create(product(sku(), "Beta phone " + tag, 200, null));
+        create(product(sku(), "Gamma tablet " + tag, 300, null));
 
         mockMvc.perform(get("/api/v1/products")
                         .header(AUTHORIZATION, bearer(admin))
-                        .param("category", category)
-                        .param("keyword", "PHONE")
+                        .param("keyword", tag)
                         .param("minPrice", "150")
+                        .param("maxPrice", "250")
                         .param("sort", "price,desc"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.totalElements").value(1))
-                .andExpect(jsonPath("$.data.content[0].name").value("Beta phone"));
+                .andExpect(jsonPath("$.data.content[0].name").value("Beta phone " + tag));
 
         mockMvc.perform(get("/api/v1/products")
                         .header(AUTHORIZATION, bearer(admin))
-                        .param("category", category)
+                        .param("keyword", tag)
                         .param("size", "2")
                         .param("sort", "price,asc"))
                 .andExpect(status().isOk())
@@ -140,7 +142,7 @@ class ProductIT extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.data.totalPages").value(2))
                 .andExpect(jsonPath("$.data.content.length()").value(2))
                 .andExpect(jsonPath("$.data.content[*].price").value(everyItem(is(greaterThanOrEqualTo(100.0)))))
-                .andExpect(jsonPath("$.data.content[0].name").value("Alpha phone"));
+                .andExpect(jsonPath("$.data.content[0].name").value("Alpha phone " + tag));
     }
 
     @Test
@@ -158,7 +160,7 @@ class ProductIT extends AbstractIntegrationTest {
         mockMvc.perform(post("/api/v1/products")
                         .header(AUTHORIZATION, bearer(user))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(json(product(sku(), "X", 1, "x"))))
+                        .content(json(product(sku(), "X", 1, null))))
                 .andExpect(status().isForbidden())
                 .andExpect(jsonPath("$.code").value("FORBIDDEN"));
     }

@@ -7,6 +7,7 @@ spring:
         format_sql: true
 
 app:
+  demo-data: ${APP_DEMO_DATA:true}
   jwt:
     # DEV ONLY - override with JWT_SECRET in any shared environment
     secret: ${JWT_SECRET:ZGV2LW9ubHktc2VjcmV0LWNoYW5nZS1tZS1wbGVhc2UtMzItYnl0ZXMtbWluIQ==}
