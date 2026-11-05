@@ -1,0 +1,15 @@
+# Used by integration tests. The datasource is provided by Testcontainers (@ServiceConnection).
+app:
+  jwt:
+    secret: dGVzdC1vbmx5LXNlY3JldC1rZXktZm9yLWludGVncmF0aW9uLXRlc3RzLTMyYg==
+  admin:
+    email: admin@test.local
+    password: Admin@123
+  storage:
+    local-dir: target/test-uploads
+  mail:
+    provider: log
+
+logging:
+  level:
+    com.example.starter: INFO
